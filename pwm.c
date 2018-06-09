@@ -1,18 +1,18 @@
 //corpo delle funzioni di pwm.h
 #include <c8051f020.h>
 
-#define OFF 0
-#define ON 1
+#define SPENTO 0
+#define ACCESO 1
 
-sbit Button= P3^7;
-sbit Led= P1^6;
+sbit Bottone = P3^7;
+sbit Led = P1^6;
 unsigned long int timer;
 sfr16 RCAP2 = 0xCA; // Timer2 capture/reload
-sfr16 T2 = 0xCC;	// Timer2
+sfr16 Timer2 = 0xCC;	// Timer2
 sbit Over = T2CON^7;
-int mode; //modalita' configurazione. se il valore e' 1 = attiva. 0 viceversa.
+int modalità; //modalita' configurazione. se il valore e' 1 = attiva. 0 viceversa.
 int direzione = 1; 
-bit ledStatus;
+bit Statusled;
 
 void init(void){
     EA = 0; //Disabilita interrupt
@@ -49,23 +49,30 @@ void interrupt_timer0() interrupt 1 {
 	TF0 = 0;
 	TR0 = 0; // stoppo timer 0
 
-	if (Led == ON) {
-		Led = OFF;  // spengo led
+	if (Led == ACCESO) {
+		Led = SPENTO;  // spengo led
 		TL0 = Lumi; // imposto duty-cycle
 	}
 	else {
-		Led = ON; // accendo led
+		Led = ACCESO; // accendo led
 		TL0 = 0xFF - Lumi; // imposto duty-cycle
 	}
 
 	TR0 = 1;
 }
 
+void init_button(void) {
+	P3IF= 0x00;
+	EIE2|= 0x20;
+	Led = SPENTO;
+	Statusled = SPENTO;
+}
+
 
 void pwm() {
-	mode= 0;
-	ledStatus= ON;
-	Lumi= 128;
+	modalità = 0;
+	Statusled = ON;
+	Lumi = 128;
 	direzione= 1;
 }
 
