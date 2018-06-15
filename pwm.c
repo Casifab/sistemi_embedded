@@ -61,6 +61,13 @@ void interrupt_timer0() interrupt 1 {
 	TR0 = 1;
 }
 
+void timer2(unsigned int counts) { //timer lampeggio led
+	T2CON = 0x00;
+	RCAP2 = counts; // Init reload values in the Capture registers
+	T2 = 0xFFFF;	// count register set to reload immediately when the first clock occurs
+	IE |= 0x20;		// IE.5, Enable Timer 2 interrupts (ET2)
+	T2CON |= 0x04;
+}
 
 void interrupt_timer2(void) interrupt 5 { 
 	// lanciato ogni 10ms
