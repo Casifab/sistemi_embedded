@@ -1,7 +1,7 @@
 #ifndef PWM_H
 #define PWM_H
-#define ACCESO 1
-#define SPENTO 0
+#define ON 1
+#define OFF 0
 
 void init(void);
 
