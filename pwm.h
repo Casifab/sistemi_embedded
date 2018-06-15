@@ -9,6 +9,10 @@ void timer0(void);
 
 void interrupt_timer0();
 
+void interrupt_timer2(void);
+
+void click_button(void);
+
 void init_button(void);
 
 void pwm();
