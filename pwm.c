@@ -11,7 +11,7 @@ unsigned char Lumi;
 sfr16 RCAP2 = 0xCA; // Timer2 capture/reload
 sfr16 Timer2 = 0xCC;	// Timer2
 sbit Over = T2CON^7;
-int modalità; //modalita' configurazione. se il valore e' 1 = attiva. 0 viceversa.
+int modalita; //modalita' configurazione. se il valore e' 1 = attiva. 0 viceversa.
 int direzione = 1; 
 bit Statusled;
 
@@ -24,7 +24,7 @@ void init(void){
     WDTCN = 0x04;
     WDTCN = 0xAD;
 
-    XBRO = 0x00;
+    XBR0 = 0x00;
     XBR1 = 0x00;
     XBR2 = 0x40;
 
@@ -71,8 +71,8 @@ void init_button(void) {
 
 
 void pwm() {
-	modalità = 0;
-	Statusled = ON;
+	modalita = 0;
+	Statusled = ACCESO;
 	Lumi = 128;
 	direzione= 1;
 }
