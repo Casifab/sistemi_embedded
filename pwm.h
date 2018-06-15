@@ -15,6 +15,4 @@ void pwm();
 
 void main(void);
 
-//Definizioni di pwm.c
-
 #endif
