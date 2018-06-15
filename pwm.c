@@ -1,6 +1,6 @@
 //corpo delle funzioni di pwm.h
 #include <c8051f020.h>
-
+#include "pwm.h"
 #define SPENTO 0
 #define ACCESO 1
 
