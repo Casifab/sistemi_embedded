@@ -61,6 +61,69 @@ void interrupt_timer0() interrupt 1 {
 	TR0 = 1;
 }
 
+
+void interrupt_timer2(void) interrupt 5 { 
+	// lanciato ogni 10ms
+	T2CON &= ~(0x80);
+	if (modalita == 0) {
+		//no modalità config
+		timer++; // incremento contatore
+		if (timer == 100) {
+			// se sono arrivato a 1s
+			modalita = 1; // entro in modalità configurazione
+			TR0 = 1;	   // faccio ripartire timer 0
+			timer = 0;	 // azzero contatore
+		}
+	}
+	else {
+		// se sono in modalità configurazione
+		Lumi = Lumi + direzione; // modifico luminosità
+		if (Lumi >= 255 || Lumi <= 0) {
+			// se la luminosità è fuori range
+			direzione = -direzione; // cambio direzione
+		}
+	}
+}
+
+void click_button(void) interrupt 19 {
+	P3IF &= 0x7F;
+	if(P3IF == 0x00) {
+		P3IF= 0x08;
+		timer2(63500);
+		timer= 0;
+	}
+	else {
+		P3IF= 0x00;
+		//stoppo il timer 0
+		TF0 = 0;
+		TR0 = 0;
+		T2CON &= ~(0x80);
+		T2CON &= ~(0x04);
+		if(modalita == 0) {
+			//no modalità config
+			if(Statusled == ACCESO) {
+				//setto led spento
+				Led= SPENTO;
+				Statusled= SPENTO;
+			}
+			else {
+				//accendo led e riavvio timer
+				TR0= 1;
+				Led= ACCESO;
+				Statusled= ACCESO;
+			}
+		}
+		else {
+			TR0= 1;
+			Led= ACCESO;
+			Statusled= ACCESO;
+			modalita= 0;
+		}
+	}
+}
+
+
+
 void init_button(void) {
 	P3IF= 0x00;
 	EIE2|= 0x20;
