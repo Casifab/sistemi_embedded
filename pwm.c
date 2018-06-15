@@ -5,7 +5,7 @@
 #define ACCESO 1
 
 sbit Bottone = P3^7;
-sbit Led = P1^6;
+sbit Led = P0^6;
 unsigned long int timer;
 unsigned char Lumi;
 sfr16 RCAP2 = 0xCA; // Timer2 capture/reload
