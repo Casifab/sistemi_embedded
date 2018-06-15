@@ -7,6 +7,7 @@
 sbit Bottone = P3^7;
 sbit Led = P1^6;
 unsigned long int timer;
+unsigned char Lumi;
 sfr16 RCAP2 = 0xCA; // Timer2 capture/reload
 sfr16 Timer2 = 0xCC;	// Timer2
 sbit Over = T2CON^7;
