@@ -13,9 +13,9 @@ void timer2(unsigned int counts);
 
 void interrupt_timer2(void);
 
-void click_button(void);
-
 void init_button(void);
+
+void click_button(void);
 
 void pwm();
 
