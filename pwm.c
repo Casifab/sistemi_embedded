@@ -5,13 +5,15 @@
 
 sbit Bottone = P3^7;
 sbit Led = P0^6;
+
 unsigned long int timer;
-unsigned char Lumi;
 sfr16 RCAP2 = 0xCA; // Timer2 capture/reload
 sfr16 Timer2 = 0xCC;	// Timer2
 sbit Over = T2CON^7;
+
 int modalita; //modalita' configurazione. se il valore e' 1 = attiva. 0 viceversa.
-int direzione = 1; 
+int direzione = 1;
+unsigned char Lumi; 
 bit Statusled;
 
 void init(void){
@@ -92,6 +94,14 @@ void interrupt_timer2(void) interrupt 5 {
 	}
 }
 
+void init_button(void) {
+	P3IF= 0x00;
+	EIE2|= 0x20;
+	Led = SPENTO;
+	Statusled = SPENTO;
+}
+
+
 void click_button(void) interrupt 19 {
 	P3IF &= 0x7F;
 	if(P3IF == 0x00) {
@@ -131,12 +141,7 @@ void click_button(void) interrupt 19 {
 
 
 
-void init_button(void) {
-	P3IF= 0x00;
-	EIE2|= 0x20;
-	Led = SPENTO;
-	Statusled = SPENTO;
-}
+
 
 
 void pwm() {
