@@ -29,7 +29,7 @@ void init(void){
 
     EIE1 |= 0x02;
     
-    P1MDOUT = 0x040; //Setta il pin come out
+    P0MDOUT = 0x040; //Setta il pin come out
 
     EA = 1;
 

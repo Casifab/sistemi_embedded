@@ -1,13 +1,6 @@
 #include <c8051f020.h>
 #include "smbus.h"
 
-bit SM_Busy = 0;
-unsigned char Slave = 0;
-unsigned char SM_Mode = 0;
-unsigned char *DataWrite;
-unsigned char *DataRead;
-unsigned short DataLen = 0;
-
 void SM_Send(unsigned char chip_select, unsigned char *src, unsigned short len, unsigned char mode) {
     while (SM_Busy);
     SM_Busy = 1;
