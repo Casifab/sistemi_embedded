@@ -1,42 +1,44 @@
 #include <c8051f020.h>
 #include "pwm.h"
-#define SPENTO 0
-#define ACCESO 1
 
-sbit Bottone = P3^7;
-sbit Led = P0^6;
+#define ON 1
+#define OFF 0
+
+sbit Button= P3^7;
+sbit Led= P0^6;
 
 unsigned long int timer;
 sfr16 RCAP2 = 0xCA; // Timer2 capture/reload
 sfr16 T2 = 0xCC;	// Timer2
 sbit Over = T2CON^7;
 
-int modalita; //modalita' configurazione. se il valore e' 1 = attiva. 0 viceversa.
-int direzione = 1;
-unsigned char Lumi; 
-bit Statusled;
+int mode;	 // 1 = modalità configurazione, 0 viceversa
+int direzione = 1; //1 avanti, -1 indietro
+unsigned char Lumi;
+bit ledStatus;
 
-void init(void){
-    EA = 0; //Disabilita interrupt
-    
-    OSCICN = 0x04; //2Mhz
+void init(void) {
+	EA = 0; //disabilita interrupt
 
-    //Disabilita watchdog timer
-    WDTCN = 0x04;
-    WDTCN = 0xAD;
+	OSCICN = 0x04; //2Mhz
 
-    XBR0 = 0x00;
-    XBR1 = 0x00;
-    XBR2 = 0x40;
+	//disabilita watchdog timer
+	WDTCN = 0xDE;
+	WDTCN = 0xAD;
 
-    EIE1 |= 0x02;
-    
-    P0MDOUT = 0x040; //Setta il pin come out
+	XBR0 = 0x00;
+	XBR1 = 0x00;
+	XBR2 = 0x40;
 
-    EA = 1;
+	EIE1 |= 0x02;
 
-    Led = 0; //led spento
+	P0MDOUT = 0x040; //setta pin come out
+
+	EA = 1;
+
+	Led= 0;
 }
+
 void timer0(void) {
 	TMOD |= 0x02;
 	CKCON |= 0x04;
@@ -51,12 +53,12 @@ void interrupt_timer0() interrupt 1 {
 	TF0 = 0;
 	TR0 = 0; // stoppo timer 0
 
-	if (Led == ACCESO) {
-		Led = SPENTO;  // spengo led
+	if (Led == ON) {
+		Led = OFF;  // spengo led
 		TL0 = Lumi; // imposto duty-cycle
 	}
 	else {
-		Led = ACCESO; // accendo led
+		Led = ON; // accendo led
 		TL0 = 0xFF - Lumi; // imposto duty-cycle
 	}
 
@@ -74,12 +76,12 @@ void timer2(unsigned int counts) { //timer lampeggio led
 void interrupt_timer2(void) interrupt 5 { 
 	// lanciato ogni 10ms
 	T2CON &= ~(0x80);
-	if (modalita == 0) {
+	if (mode == 0) {
 		//no modalità config
 		timer++; // incremento contatore
 		if (timer == 100) {
 			// se sono arrivato a 1s
-			modalita = 1; // entro in modalità configurazione
+			mode = 1; // entro in modalità configurazione
 			TR0 = 1;	   // faccio ripartire timer 0
 			timer = 0;	 // azzero contatore
 		}
@@ -97,10 +99,9 @@ void interrupt_timer2(void) interrupt 5 {
 void init_button(void) {
 	P3IF= 0x00;
 	EIE2|= 0x20;
-	Led = SPENTO;
-	Statusled = SPENTO;
+	Led= OFF;
+	ledStatus= OFF;
 }
-
 
 void click_button(void) interrupt 19 {
 	P3IF &= 0x7F;
@@ -116,38 +117,33 @@ void click_button(void) interrupt 19 {
 		TR0 = 0;
 		T2CON &= ~(0x80);
 		T2CON &= ~(0x04);
-		if(modalita == 0) {
+		if(mode == 0) {
 			//no modalità config
-			if(Statusled == ACCESO) {
+			if(ledStatus == ON) {
 				//setto led spento
-				Led= SPENTO;
-				Statusled= SPENTO;
+				Led= OFF;
+				ledStatus= OFF;
 			}
 			else {
 				//accendo led e riavvio timer
 				TR0= 1;
-				Led= ACCESO;
-				Statusled= ACCESO;
+				Led= ON;
+				ledStatus= ON;
 			}
 		}
 		else {
 			TR0= 1;
-			Led= ACCESO;
-			Statusled= ACCESO;
-			modalita= 0;
+			Led= ON;
+			ledStatus= ON;
+			mode= 0;
 		}
 	}
 }
 
-
-
-
-
-
 void pwm() {
-	modalita = 0;
-	Statusled = ACCESO;
-	Lumi = 128;
+	mode= 0;
+	ledStatus= ON;
+	Lumi= 128;
 	direzione= 1;
 }
 
