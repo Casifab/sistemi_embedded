@@ -1,9 +1,6 @@
 #include <c8051f020.h>
 #include "pwm.h"
 
-#define ON 1
-#define OFF 0
-
 sbit Button= P3^7;
 sbit Led= P0^6;
 

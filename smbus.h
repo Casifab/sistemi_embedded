@@ -6,12 +6,12 @@
 #define COM 0x00
 #define DAT 0x40
 
-extern bit SM_Busy = 0;
-extern unsigned char Slave = 0;
-extern unsigned char SM_Mode = 0;
+extern bit SM_Busy;
+extern unsigned char Slave;
+extern unsigned char SM_Mode;
 extern unsigned char *DataWrite;
 extern unsigned char *DataRead;
-extern unsigned short DataLen = 0;
+extern unsigned short DataLen;
 
 void SM_Send(unsigned char chip_select, unsigned char *src, unsigned short len, unsigned char mode);
 
