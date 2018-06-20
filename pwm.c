@@ -14,28 +14,6 @@ int direzione = 1; //1 avanti, -1 indietro
 unsigned char Lumi;
 bit ledStatus;
 
-void init(void) {
-	EA = 0; //disabilita interrupt
-
-	OSCICN = 0x04; //2Mhz
-
-	//disabilita watchdog timer
-	WDTCN = 0xDE;
-	WDTCN = 0xAD;
-
-	XBR0 = 0x00;
-	XBR1 = 0x00;
-	XBR2 = 0x40;
-
-	EIE1 |= 0x02;
-
-	P0MDOUT = 0x040; //setta pin come out
-
-	EA = 1;
-
-	Led= 0;
-}
-
 void timer0(void) {
 	TMOD |= 0x02;
 	CKCON |= 0x04;
@@ -144,11 +122,8 @@ void pwm() {
 	direzione= 1;
 }
 
-void main(void) {
-	init();
+void pwmMain(void) {
 	init_button();
 	pwm();
 	timer0();
-
-	while(1);
 }

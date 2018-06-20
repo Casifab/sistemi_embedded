@@ -364,9 +364,19 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>temp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\temp.c</FilePath>
             </File>
           </Files>
         </Group>

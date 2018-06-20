@@ -32,55 +32,63 @@ void SM_Receive(unsigned char chip_select, unsigned char *dest, unsigned short l
     while (SM_Busy);
 }
 
-void SW_routine(void) interrupt 7 {
-    switch(SMB0STA) {
-
-        case 0x08:
-            SMB0DAT= Slave;
-            STA= 0;
+void SMBUS_ISR(void) interrupt 7 {
+    switch (SMB0STA) {
+    
+        case SMB_START:
+        
+        case SMB_RP_START:
+            SMB0DAT = Slave;
             break;
-
-        case 0x18:
-            if(SM_Mode == COM || SM_Mode == DAT) {
-                SMB0DAT= SM_Mode;
+        
+        case SMB_MTADDACK:
+            STA = 0;
+            if (SM_Mode == COM || SM_Mode == DAT) {
+                SMB0DAT = SM_Mode;
             }
             else {
-                SMB0DAT= *DataWrite;
+                SMB0DAT = *DataWrite;
                 DataWrite++;
                 DataLen--;
             }
             break;
-
-        case 0x28:
-            if(DataLen > 0) {
-                SMB0DAT= *DataWrite;
+        
+        case SMB_MTDBACK:
+            if (SM_Mode == ACC_READ) {
+                Slave |= READ;
+                DataLen = 3;
+                STA = 1;
+            }
+            else if (DataLen) {
+                SMB0DAT = *DataWrite;
                 DataWrite++;
                 DataLen--;
             }
             else {
-                STO= 1;
-                SM_Busy= 0;
+                STO = 1;
+                SM_Busy = 0;
             }
             break;
 
-        case 0x40:
-            STA= 0;
+        case SMB_MRADDACK:
+            STA = 0;
             break;
-
-        case 0x50:
-            if(DataLen > 0) {
-                *DataRead= SMB0DAT;
+        
+        case SMB_MRDBACK:
+            if (DataLen) {
+                *DataRead = SMB0DAT;
                 DataRead++;
                 DataLen--;
             }
             else {
-                AA= 0;
+                AA = 0;
             }
             break;
-
+        
         default:
-            STO= 1;
-            SM_Busy= 0;
+            STO = 1;
+            SM_Busy = 0;
+            break;
     }
-    SI= 0;
+    SI = 0;
 }

@@ -4,7 +4,7 @@
 #define ON 1
 #define OFF 0
 
-void init(void);
+void initp(void);
 
 void timer0(void);
 
@@ -20,6 +20,6 @@ void click_button(void);
 
 void pwm();
 
-void main(void);
+void pwmMain(void);
 
 #endif
