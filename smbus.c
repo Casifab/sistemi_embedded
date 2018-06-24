@@ -32,16 +32,16 @@ void SM_Receive(unsigned char chip_select, unsigned char *dest, unsigned short l
     while (SM_Busy);
 }
 
-void SMBUS_ISR(void) interrupt 7 {
+void SW_Routine(void) interrupt 7 {
     switch (SMB0STA) {
     
-        case SMB_START:
+        case 0x08:
         
-        case SMB_RP_START:
+        case 0x10:
             SMB0DAT = Slave;
             break;
         
-        case SMB_MTADDACK:
+        case 0x18:
             STA = 0;
             if (SM_Mode == COM || SM_Mode == DAT) {
                 SMB0DAT = SM_Mode;
@@ -53,7 +53,7 @@ void SMBUS_ISR(void) interrupt 7 {
             }
             break;
         
-        case SMB_MTDBACK:
+        case 0x28:
             if (SM_Mode == ACC_READ) {
                 Slave |= READ;
                 DataLen = 3;
@@ -70,11 +70,11 @@ void SMBUS_ISR(void) interrupt 7 {
             }
             break;
 
-        case SMB_MRADDACK:
+        case 0x40:
             STA = 0;
             break;
         
-        case SMB_MRDBACK:
+        case 0x50:
             if (DataLen) {
                 *DataRead = SMB0DAT;
                 DataRead++;

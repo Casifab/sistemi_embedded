@@ -6,6 +6,9 @@
 #define COM 0x00
 #define DAT 0x40
 
+#define ACC_READ 0x01
+#define ACC_SEND 0x41
+
 extern bit SM_Busy;
 extern unsigned char Slave;
 extern unsigned char SM_Mode;
