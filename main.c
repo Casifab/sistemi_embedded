@@ -98,20 +98,21 @@ void t4(void) interrupt 16 {
 void main(void) {
 	init();
 	SM_Send(LCD, cmd_lcd, 8, COM);
-
 	pwmMain();
 
-	if(getPositions) {
-		//DO STUFF FOR "QUEL DIAVOLO DI ACCELEROMETRO"
-	}
+	while(1){
+		if(getPositions) {
+			//DO STUFF FOR "QUEL DIAVOLO DI ACCELEROMETRO"
+		}
 
-	if(sendToLCD) {
-		//TODO:
-		//SEND ACC DATA
-		SM_Send(LCD, tempToWrite, 4, DAT);
-	}
+		if(sendToLCD) {
+			//TODO:
+			//SEND ACC DATA
+			SM_Send(LCD, tempToWrite, 4, DAT);
+		}
 
-	if(getTemp) {
-		tempMain();
+		if(getTemp) {
+			tempMain();
+		}
 	}
 }
