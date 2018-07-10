@@ -45,7 +45,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>prog-esame</OutputName>
+          <OutputName>prog-esame1</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -171,11 +171,11 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
-            <Capability>1</Capability>
-            <DriverSelection>4102</DriverSelection>
+            <Capability>0</Capability>
+            <DriverSelection>-1</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
-          <Flash2>BIN\SiC8051F.dll</Flash2>
+          <bUseTDR>1</bUseTDR>
+          <Flash2></Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -364,6 +364,11 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
+              <FileName>STARTUP.A51</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\STARTUP.A51</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
@@ -372,6 +377,11 @@
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>smbus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\smbus.c</FilePath>
             </File>
             <File>
               <FileName>temp.c</FileName>
