@@ -388,6 +388,11 @@
               <FileType>1</FileType>
               <FilePath>.\temp.c</FilePath>
             </File>
+            <File>
+              <FileName>acc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\acc.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

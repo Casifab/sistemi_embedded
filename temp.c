@@ -28,6 +28,4 @@ void tempMain(void) {
     SM_Receive(TER, temp, 2);
     ShiftTemp();
     Divide();
-    //SM_Send(LCD, cmd_lcd, 8, COM);
-    //SM_Send(LCD, tempWrite, 4, DAT);
 }
