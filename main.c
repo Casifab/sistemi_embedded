@@ -18,9 +18,9 @@ unsigned char time_temp= 0;
 
 unsigned char cmd_lcd[8] = {0x38, 0x39, 0x14, 0x74, 0x54, 0x6F, 0x0C, 0x01};
 unsigned char cmd_acc[4] = {0x06, 0x00, 0x01, 0x03};
-unsigned char clean_lcd[]= {0x00, 0x01};
+//unsigned char clean_lcd[]= {0x00, 0x01};
 
-unsigned char clear= 0x80;
+unsigned char clean_lcd= 0x80;
 unsigned char enter= 0xC0;
 
 /******************************************************************************
@@ -105,7 +105,7 @@ void main(void) {
 
 		if(sendToLCD) {
 			sendToLCD= 0;
-			SM_Send(LCD, &clear, 1, COM);
+			SM_Send(LCD, &clean_lcd, 1, COM);
 			SM_Send(LCD, acc_line, 14, DAT);
 			SM_Send(LCD, &enter, 1, COM);
 			SM_Send(LCD, tempToWrite, 4, DAT);
@@ -115,8 +115,6 @@ void main(void) {
 			getTemp= 0;
 			tempMain();
 		}
-
 	//	for(ff= 0; ff < 100000; ff++);
-	//	SM_Send(LCD, clean_lcd, 2, COM);
 	}
 }

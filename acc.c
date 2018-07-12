@@ -3,7 +3,7 @@
 #include "smbus.h"
 
 //Angles look up table
-code int ALUT[64] = {
+code int ALUT[] = {
     //Angoli positivi
     0, 3, 5, 8, 11, 14, 16, 19, 22, 25, 28,
     31, 34, 38, 41, 45, 49, 53, 58, 63, 70, 80,
@@ -22,7 +22,7 @@ int buff_y[8];
 int buff_z[8];
 int point= 0;
 
-unsigned char acc_line[14]= {0x58, 0, 0, 0xDF, 0, 0x59, 0, 0, 0xDF, 0, 0x60, 0, 0, 0xDF};
+unsigned char acc_line[14]= {0x58, 0, 0, 0xDF, 0, 0x59, 0, 0, 0xDF, 0, 0x5A, 0, 0, 0xDF};
 
 void read_angles(void) {
     int src = 0x00;

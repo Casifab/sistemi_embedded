@@ -1,5 +1,4 @@
 #include "smbus.h"
-#include "acc.h"
 #include <c8051f020.h>
 
 bit SM_Busy = 0;
