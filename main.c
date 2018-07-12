@@ -36,7 +36,7 @@ void init() {
 
 	XBR0 = 0x05; // Route SMBus to GPIO pins through crossbar, enable UART0
 				 // in order to properly connect pins.
-
+	XBR1= 0x00;
 	XBR2 = 0x40; // Enable crossbar and weak pull-ups
 
 	SMB0CN = 0x44; // Enable SMBus with ACKs on acknowledge cycle

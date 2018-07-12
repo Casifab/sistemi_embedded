@@ -15,7 +15,7 @@ code int ALUT[] = {
     80, 70, 63, 58, 53, 49, 45, 41, 38, 34, 31,
     28, 25, 22, 19, 16, 14, 11, 8, 5, 3};
 
-int ang_read[3];
+unsigned char ang_read[3];
 int med[3];
 int buff_x[8];
 int buff_y[8];
@@ -27,7 +27,7 @@ unsigned char acc_line[14]= {0x58, 0, 0, 0xDF, 0, 0x59, 0, 0, 0xDF, 0, 0x5A, 0, 
 void read_angles(void) {
     int src = 0x00;
 	DataRead = ang_read;
-	SM_Send(ACCEL, &src, 1, 0x01);
+	SM_Send(ACCEL, &src, 1, ACC_READ);
 	while(SM_Busy);
 	
 	ang_read[0] = ALUT[ang_read[0] & 0x3F];
