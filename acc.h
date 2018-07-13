@@ -6,7 +6,9 @@
 extern unsigned char acc_line[14];
 
 void read_angles(void);
+
 void med_angles(void);
+
 void compose_line(void);
 
 void accMain(void);

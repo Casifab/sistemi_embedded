@@ -69,17 +69,18 @@ void init_t4(void) {
  * TIMER 4
  *****************************************************************************/
 void t4(void) interrupt 16 {
+	// ISR lanciata ogni 100ms
 	time_lcd++;
 	time_temp++;
-	getPositions= 1;
+	getPositions= 1; // alzo flag per la lettura degli angoli
 
-	if(time_lcd == 3) {
-		sendToLCD= 1;
+	if(time_lcd == 3) { // passati 300ms
+		sendToLCD= 1; // flag per invio dati all'LCD
 		time_lcd= 0;
 	}
 
-	if(time_temp == 10) {
-		getTemp= 1;
+	if(time_temp == 10) { // passato 1s
+		getTemp= 1; // flag per lettura della temperatura
 		time_temp= 0;
 	}
 
@@ -90,17 +91,16 @@ void t4(void) interrupt 16 {
  * PROCEDURA DI MAIN
  *****************************************************************************/
 void main(void) {
-	//long int ff;
 	init();
 	SM_Send(LCD, cmd_lcd, 8, COM);
 	init_t4();
-	pwmMain();
+	pwmMain(); //file pwm.c
 	SM_Send(ACCEL, cmd_acc, 4, ACC_SEND);
 
 	while(1){
 		if(getPositions) {
 			getPositions= 0;
-			accMain();
+			accMain(); //file acc.c
 		}
 
 		if(sendToLCD) {
@@ -113,8 +113,7 @@ void main(void) {
 
 		if(getTemp) {
 			getTemp= 0;
-			tempMain();
+			tempMain(); //file temp.c
 		}
-	//	for(ff= 0; ff < 100000; ff++);
 	}
 }
