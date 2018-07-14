@@ -6,13 +6,24 @@
 \author{
 Fabio Casiraghi 807398 \href{mailto:f.casiraghi@campus.unimib.it}{f.casiraghi@campus.unimib.it}
 \and
-Tommaso Carboni 808431 \texttt{t.carboni@campus.unimib.it}
+Tommaso Carboni 808431 \href{mailto:t.carboni@campus.unimib.it} {t.carboni@campus.unimib.it}
 \and
-Giacomo Elemi 806904 \texttt{g.elemi@campus.unimib.it}
+Giacomo Elemi 806904 \href{mailto:g.elemi@campus.unimib.it} {g.elemi@campus.unimib.it}
 }
 
 \title{Progetto Sistemi Embedded}
 \begin{document}
 \maketitle
 \vspace{2cm}
+
+\section*{Livella con sensore di temperatura}
+Il progetto, come da indicazioni, rappresenta una livella con sensore di temperatura, il codice eseguito sul microcontrollore calcola gli angoli rispetto all'inclinazione dello stesso rispetto ai 3 assi e le mostra a display. Sotto queste misure viene visualizzata la temperatura percepita dal termometro.
+Il progetto è suddiviso su più file .c con rispettivi header. Abbiamo scelto questo tipo di implementazione per alleggerire il più possibile il codice (data la scarsa quantità di memoria disponibile sul microcontrollore) e rendere più chiaro comprendere il compito svolto da ogni segmento di codice.
+
+\subsection{File main.c}
+Il file main contiene la routine principale, che si occupa in primo luogo di settare i principali registri del microcontrollore, successivamente inizializza e attiva il timer 4 e per ultimo eseguo un ciclo infinito in cui vengono, ad ogni iterazione, eseguite le funzioni relative a ciascuna delle flag attive.
+\begin{itemize}
+\item \textbf{init()} Funzione che si occupa di settare i registri principali, in particolare quelli relativi al watchdog, velocità del ciclo di clock, abilita le interrupt globali
+\end{itemize}
+
 \end{document}
