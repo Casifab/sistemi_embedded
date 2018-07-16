@@ -20,10 +20,32 @@ Giacomo Elemi 806904 \href{mailto:g.elemi@campus.unimib.it} {g.elemi@campus.unim
 Il progetto, come da indicazioni, rappresenta una livella con sensore di temperatura, il codice eseguito sul microcontrollore calcola gli angoli rispetto all'inclinazione dello stesso rispetto ai 3 assi e le mostra a display. Sotto queste misure viene visualizzata la temperatura percepita dal termometro.
 Il progetto è suddiviso su più file .c con rispettivi header. Abbiamo scelto questo tipo di implementazione per alleggerire il più possibile il codice (data la scarsa quantità di memoria disponibile sul microcontrollore) e rendere più chiaro comprendere il compito svolto da ogni segmento di codice.
 
-\subsection{File main.c}
+\subsection*{File main.c}
 Il file main contiene la routine principale, che si occupa in primo luogo di settare i principali registri del microcontrollore, successivamente inizializza e attiva il timer 4 e per ultimo eseguo un ciclo infinito in cui vengono, ad ogni iterazione, eseguite le funzioni relative a ciascuna delle flag attive.
 \begin{itemize}
-\item \textbf{init()} Funzione che si occupa di settare i registri principali, in particolare quelli relativi al watchdog, velocità del ciclo di clock, abilita le interrupt globali
+\item \textbf{init()} Funzione che si occupa di settare i registri principali, in particolare quelli relativi al watchdog, velocità del ciclo di clock, abilita le interrupt globali.
+\item \textbf{init\_t4()} Funzione che inzializza il timer 4, settando starting e reload value.
+\item \textbf{t4()} Eseguita ogni volta che viene generato il segnale d'interrupt 16, legato all'overflow del timer 4 (ogni 100ms). Utilizza dei contatori per tenere il conto del tempo passato e attivare le flag corrispondenti.
+\item \textbf{main()} Esegue tutte le inizializzazioni necessarie e avvia il loop infinito che controlla le varie flag ed esegue le funzioni relative se queste flag sono attive.
 \end{itemize}
+
+\subsection*{File smbus.c}
+Il file contiene l'interrupt service routine relativa al Smbus, necessarie per l'invio e ricezione di dati lungo il bus.
+\begin{itemize}
+\item \textbf{SM\_Send()} Procedura per l'invio dei dati lungo l'Smbus. Prende in input il dispositivo a cui inviare i dati (chip\_select), la sorgente dei dati da inviare (*src), la quantità di dati da inviare (len) e la modalità relativa alla trasmissione (mode).
+\item \textbf{SM\_Receive()} Procedura per la ricezione dei dati dalla scheda lungo l'Smbus. Prende in input il dispositivo da cui ricevere i dati (chip\_select), la destinazione in cui salvare i dati (*dest) e la quantità di dati da leggere (len).
+\item \textbf{SW\_Routine()} ISR dell'Smbus, legata all'interrupt 7, che contiene la routine di switch relativa al registro di stato del bus. Ogni stato esegue le procedure standard consigliate nella tabella 1 del pdf \href{https://www.silabs.com/documents/public/application-notes/an113.pdf} {\underline{Serial Communication with the SMBus}} della Silicon Labs. 
+\end{itemize}
+
+\subsection*{File acc.c}
+File contenente le procedure relative alla lettura e calcolo della posizione, lungo i 3 assi, recepita dall'accelerometro.
+\begin{itemize}
+\item \textbf{read\_angles()} Funzione che riceve le posizioni calcolate dall'accelerometro e le salva nei rispettivi buffer.
+\item \textbf{med\_angles()} Calcola la media delle posizioni contenute in ciascun buffer.
+\item \textbf{compose\_line()} Scrive le medie calcolate nelle posizioni corrette del buffer formante la prima linea visualizzata sul display.
+\item \textbf{accMain()} Main relativo all'accelerometro, esegue le tre funzioni descritte precedentemente in sequenza.
+\end{itemize}
+
+\subsection*{File pwm.c}
 
 \end{document}
