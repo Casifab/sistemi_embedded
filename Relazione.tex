@@ -47,5 +47,11 @@ File contenente le procedure relative alla lettura e calcolo della posizione, lu
 \end{itemize}
 
 \subsection*{File pwm.c}
-
+Il file contiene le istruzioni necessario per l'inizializzazione e gestione del PWM relativo alla retroilluminazione dell'LCD.
+\begin{itemize}
+\item \textbf{timer0()} Inizializza il timer 0 settando valori iniziali e di reload
+\item \textbf{interrupt\_timer0()} Funzione collegata all'interrupt 1 (overflow timer 0), gestisce l'onda del duty cicle.
+\item \textbf{timer2()} Inizializza il timer 2, prende come parametro il valore da cui far ripartire il timer dopo il reload.
+\item \textbf{interrupt_timer2()} Legata all'interrupt 5 (overflow timer 2), esegue ogni 10ms 
+\end{itemize}
 \end{document}
