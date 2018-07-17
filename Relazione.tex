@@ -52,6 +52,18 @@ Il file contiene le istruzioni necessario per l'inizializzazione e gestione del 
 \item \textbf{timer0()} Inizializza il timer 0 settando valori iniziali e di reload
 \item \textbf{interrupt\_timer0()} Funzione collegata all'interrupt 1 (overflow timer 0), gestisce l'onda del duty cicle.
 \item \textbf{timer2()} Inizializza il timer 2, prende come parametro il valore da cui far ripartire il timer dopo il reload.
-\item \textbf{interrupt_timer2()} Legata all'interrupt 5 (overflow timer 2), esegue ogni 10ms 
+\item \textbf{interrupt\_timer2()} Legata all'interrupt 5 (overflow timer 2), esegue ogni 10ms e controlla se il pulsante P3.7 viene tenuto premuto per più di un secondo, settando o meno la modalità di configurazione.
+\item \textbf{init\_button()} Inizializza il bottone P3.7 e setta il valori base del Led.
+\item \textbf{click\_button()} Legata all'interrupt 19, entra in esecuzione ogni qual volta il pulsante P3.7 viene premuto. Quando ciò avviene viene lanciato il timer 2 per controllare per quanto a lungo il pulsante è stato premuto e avviando la sequenza di modulazione nel caso venga schiacciato per più di un secondo.
+\item \textbf{pwm()} Setta i valori iniziali per la procedura di modulazione del segnale, come ad esempio luminosità, modalità, stato del Led e direzione della modulazione.
+\item \textbf{pwmMain()} Main relativo al procedimento PWM, esegue le prime due funzioni per le inizializzazioni necessarie e l'ultima per avviare il timer 0.
+\end{itemize}
+
+\subsection*{File temp.c}
+File contenente i segmenti di codice relativi alla ricezione e conversione della temperatura percepita.
+\begin{itemize}
+\item \textbf{ShiftTemp()} Questa funzione ha lo scopo principale di convertire e unire i due registri da 8 bit su cui è diviso il dato riguardante la temperatura. La funzione converte i due registri in valori interi, successivamente pulisce ciascun registro per evitare bit "sporchi" e infine unisce i due registri in un'unica variabile.
+\item \textbf{Divide()} La funzione divide il valore della temperatura in cifre (decine e unità) ed a ciascun valore somma l'esadecimale 0x30 per ottenere così il valore ASCII relativo alla cifra.
+\item \textbf{tempMain()} Main del file. Prima invia la richiesta di ricezione dei registri contenenti la temperatura successivamente esegue le due funzioni precedentemente descritte per pulire, unire e convertire i valori ottenuti.
 \end{itemize}
 \end{document}
